@@ -1,11 +1,36 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView, StyleSheet, TextInput, Text, View, TouchableOpacity } from 'react-native';
-// import { useAuth } from '../context/AuthContext';
+import { auth, signInWithEmailAndPassword, onAuthStateChanged } from '../firebase';
 
 const LoginScreen = () => {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    // const { login } = useAuth();
+    const [ email, setEmail ] = useState("");
+    const [ password, setPassword ] = useState("");
+    const [ error, setError ] = useState("");
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if(user){
+                navigation("Home");
+            }
+        })
+        return unsubscribe;
+    },[]);
+    
+    const handleLogin = async e => {
+        e.preventDefault();
+        try {
+            setError("");
+            await login(email, password);
+        } catch {
+            return setError("Failed to sign in");
+        }
+    }
+
+    const login = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password);
+    }
 
     return (
         <KeyboardAvoidingView
@@ -13,22 +38,25 @@ const LoginScreen = () => {
             behavior="padding"
         >
             <Text>TeamPro</Text>
+            <Text>{error}</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Email"
-                    ref={emailRef}
+                    value={email}
+                    onChangeText={text => setEmail(text)}
                     style={styles.input}
                 />
                 <TextInput
                     placeholder="Password"
-                    ref={passwordRef}
+                    value={password}
+                    onChangeText={text => setPassword(text)}
                     style={styles.input}
                     secureTextEntry
                 />
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    // onPress={() => {}}
+                    onPress={handleLogin}
                     style={[styles.button, styles.buttonOutline]}
                 >
                     <Text style={styles.buttonOutlineText}>Continue</Text>
