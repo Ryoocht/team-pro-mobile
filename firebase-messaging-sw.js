@@ -1,20 +1,21 @@
 // import { initializeApp } from "firebase/app";
-// import { getMessaging, onMessage } from "firebase/messaging/sw";
+import { getMessaging, onMessage, onBackgroundMessage } from "firebase/messaging/sw";
 
 // const firebaseConfig = {
-//     apiKey: "AIzaSyCoyeUfHwMTPVwmCF6dEtxjK7GzAabgfr8",
-//     authDomain: "moonward-teampro.firebaseapp.com",
-//     projectId: "moonward-teampro",
-//     storageBucket: "moonward-teampro.appspot.com",
-//     messagingSenderId: "963647731245",
-//     appId: "1:963647731245:web:1482735259a26ecc2e2aa4"
-// };
+//     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+//     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+//     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+//     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+//     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+//     appId: process.env.REACT_APP_FIREBASE_APP_ID,
+//     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+//   };
 
 // initializeApp(firebaseConfig);
 // const messaging = getMessaging(firebaseConfig);
 
-// onMessage(messaging, (payload) => {
-//     console.log('Message received. ', payload);
+// onBackgroundMessage(messaging, payload => {
+//     console.log("Received background message ", payload);
 
 //     const notificationTitle = payload.notification.title;
 //     const notificationOptions = {
