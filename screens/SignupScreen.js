@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, TextInput, Text, View, TouchableOpacity} from 'react-native';
 import { auth, createUserWithEmailAndPassword, onAuthStateChanged, firestore, setDoc, doc } from "../firebase";
+import { useNavigation } from '@react-navigation/native';
 
 const SignupScreen = () => {
     const [ userName, setUserName ] = useState("");
@@ -12,22 +12,21 @@ const SignupScreen = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
             if(user){
-                navigation.navigation("Home");
+                navigation.navigate('Home');
             }
+            return unsubscribe;
         })
-        return unsubscribe;
     },[]);
 
-    const handleSignUp = async e => {
-        e.preventDefault();
+    const handleSignUp = () => {
         if (password !== passwordConfirm) {
             return setError("Passwords do not match");
         }
         try {
             setError("");
-            await signup(userName, email, password);
+            signup(userName, email, password);
         } catch {
             return setError("Failed to create an account");
         }
@@ -62,8 +61,8 @@ const SignupScreen = () => {
             style={styles.container}
             behavior="padding"
         >
-            <Text>TeamPro</Text>
-            <Text>{error}</Text>
+            <Text style={styles.titleText}>TeamPro</Text>
+            <Text style={styles.errorText}>{error}</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Name"
@@ -111,6 +110,16 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: "#004445",
+    },
+    titleText: {
+        fontSize: 60,
+        margin: 10,
+        color: "#fff1c1",
+    },
+    errorText: {
+        fontSize: 23,
+        color: "red",
     },
     inputContainer: {
         width: '80%'
@@ -129,21 +138,21 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     button: {
-        backgroundColor: '#0772F9',
+        backgroundColor: '#fff1c1',
         width: '100%',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
     },
     buttonOutline: {
-        backgroundColor: 'white',
+        backgroundColor: '#fff1c1',
         marginTop: 5,
-        borderColor: "#0772F9",
+        borderColor: "#fff1c1",
         borderWidth: 2,
     },
     buttonOutlineText: {
-        color: '#0772F9',
+        color: '#004445',
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 19,
     }
 })

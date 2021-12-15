@@ -1,16 +1,17 @@
 import React from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-const TitleScreen = () => {
+const TitleScreen = ({ navigation }) => {
+
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior="padding"
         >
-            <Text>TeamPro</Text>
+            <Text style={styles.titleText}>TeamPro</Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    // onPress={() => {}}
+                    onPress={() => navigation.push("Signup")}
                     style={styles.button}
                 >
                     <Text style={styles.buttonText}>Sign Up</Text>
@@ -18,7 +19,7 @@ const TitleScreen = () => {
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    // onPress={() => {}}
+                    onPress={() => navigation.push("Login")}
                     style={[styles.button, styles.buttonOutline]}
                 >
                     <Text style={styles.buttonOutlineText}>Log In</Text>
@@ -35,44 +36,40 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: "#004445",
     },
-    inputContainer: {
-        width: '80%'
-    },
-    input: {
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 5,
+    titleText: {
+        fontSize: 60,
+        margin: 10,
+        color: "#fff1c1",
     },
     buttonContainer: {
         width: '60%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 40,
+        marginTop: 15,
     },
     button: {
-        backgroundColor: '#0772F9',
+        backgroundColor: '#fff1c1',
         width: '100%',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
     },
     buttonOutline: {
-        backgroundColor: 'white',
-        marginTop: 5,
-        borderColor: "#0772F9",
+        backgroundColor: '#004445',
+        marginTop: 3,
+        borderColor: "#fff1c1",
         borderWidth: 2,
     },
     buttonText: {
-        color: 'white',
+        color: '#004445',
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 19,
     },
     buttonOutlineText: {
-        color: '#0772F9',
+        color: '#fff1c1',
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 19,
     }
 })
